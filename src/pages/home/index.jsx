@@ -52,7 +52,11 @@ const Home = () => {
             `Erro ao enviar os parâmetros do filtro ${filterName}`
           );
         }
-        // Trate a resposta conforme necessário
+        // Atualiza a lista de babysitters com os dados filtrados
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
       })
       .catch((error) => {
         console.error(
@@ -90,8 +94,8 @@ const Home = () => {
                 type="radio"
                 name="range"
                 id="low-price"
-                value="6.42,20"
-                checked={priceRange === "6.42,20"}
+                value="0,15"
+                checked={priceRange === "0,15"}
                 onChange={(e) => setPriceRange(e.target.value)}
               />
               <FormCheckLabel htmlFor="low-price">Preço baixo</FormCheckLabel>
@@ -101,8 +105,8 @@ const Home = () => {
                 type="radio"
                 name="range"
                 id="medium-price"
-                value="20.01,50"
-                checked={priceRange === "20.01,50"}
+                value="15.01,25"
+                checked={priceRange === "15.01,25"}
                 onChange={(e) => setPriceRange(e.target.value)}
               />
               <FormCheckLabel htmlFor="medium-price">
@@ -114,8 +118,8 @@ const Home = () => {
                 type="radio"
                 name="range"
                 id="high-price"
-                value="50.01,100"
-                checked={priceRange === "50.01,100"}
+                value="25,1000"
+                checked={priceRange === "25,1000"}
                 onChange={(e) => setPriceRange(e.target.value)}
               />
               <FormCheckLabel htmlFor="high-price">Preço alto</FormCheckLabel>
