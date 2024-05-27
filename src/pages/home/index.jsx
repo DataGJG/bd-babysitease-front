@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { fetchHomeData } from "../../services/api";
 import {
   Wrapper,
-  Sidebar,
+  FilterWrapper,
   Main,
-  Navbar,
-  Content,
+  NavbarWrapper,
+  ContentWrapper,
   Card,
   CardImg,
   CardBody,
@@ -13,8 +13,6 @@ import {
   CardText,
   CardFooter,
   Button,
-  SidebarItem,
-  SidebarLink,
   Form,
   FormCheck,
   FormCheckInput,
@@ -23,6 +21,10 @@ import {
 
 const Home = () => {
   const [data, setData] = useState([]);
+  const [priceRange, setPriceRange] = useState("6.42,20");
+  const [rating, setRating] = useState("3");
+  const [experience, setExperience] = useState("1");
+  const [languages, setLanguages] = useState("english");
 
   useEffect(() => {
     const getData = async () => {
@@ -37,56 +39,33 @@ const Home = () => {
     getData();
   }, []);
 
+  const handleSubmit = (filterName, filterValue) => {
+    const queryParams = new URLSearchParams({
+      [filterName]: filterValue,
+    }).toString();
+    const url = `http://localhost:8000/home?${queryParams}`;
+
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Erro ao enviar os parâmetros do filtro ${filterName}`
+          );
+        }
+        // Trate a resposta conforme necessário
+      })
+      .catch((error) => {
+        console.error(
+          `Erro ao enviar os parâmetros do filtro ${filterName}:`,
+          error
+        );
+      });
+  };
+
   return (
     <Wrapper>
-      <Sidebar>
-        <SidebarItem>
-          <SidebarLink
-            href="#"
-            data-bs-toggle="collapse"
-            data-bs-target="#location"
-          >
-            <i className="lni lni-map-marker"></i>
-            <span>Preço</span>
-          </SidebarLink>
-          <div id="location" className="collapse">
-            <Form action="home.html" method="GET">
-              <FormCheck>
-                <FormCheckInput
-                  type="radio"
-                  name="range"
-                  id="low-price"
-                  value="6.42,20"
-                  defaultChecked
-                />
-                <FormCheckLabel htmlFor="low-price">Preço baixo</FormCheckLabel>
-              </FormCheck>
-              <FormCheck>
-                <FormCheckInput
-                  type="radio"
-                  name="range"
-                  id="medium-price"
-                  value="21,40"
-                />
-                <FormCheckLabel htmlFor="medium-price">Médio</FormCheckLabel>
-              </FormCheck>
-              <FormCheck>
-                <FormCheckInput
-                  type="radio"
-                  name="range"
-                  id="high-price"
-                  value="41,60"
-                />
-                <FormCheckLabel htmlFor="high-price">Alto</FormCheckLabel>
-              </FormCheck>
-              <Button type="submit">Filtrar</Button>
-            </Form>
-          </div>
-        </SidebarItem>
-        {/* Repeat for other filters */}
-      </Sidebar>
       <Main>
-        <Navbar>
+        <NavbarWrapper>
           <a href="home.html">BabysitEase</a>
           <div className="d-flex align-items-center">
             <p>Olá João!</p>
@@ -103,8 +82,201 @@ const Home = () => {
               <a href="logout.html">Logout</a>
             </div>
           </div>
-        </Navbar>
-        <Content>
+        </NavbarWrapper>
+        <FilterWrapper>
+          <Form>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="range"
+                id="low-price"
+                value="6.42,20"
+                checked={priceRange === "6.42,20"}
+                onChange={(e) => setPriceRange(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="low-price">Preço baixo</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="range"
+                id="medium-price"
+                value="20.01,50"
+                checked={priceRange === "20.01,50"}
+                onChange={(e) => setPriceRange(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="medium-price">
+                Preço médio
+              </FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="range"
+                id="high-price"
+                value="50.01,100"
+                checked={priceRange === "50.01,100"}
+                onChange={(e) => setPriceRange(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="high-price">Preço alto</FormCheckLabel>
+            </FormCheck>
+
+            <Button
+              type="button"
+              onClick={() => handleSubmit("priceRange", priceRange)}
+            >
+              ENVIAR
+            </Button>
+          </Form>
+          <Form>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="rating"
+                id="one-star"
+                value="1"
+                checked={rating === "1"}
+                onChange={(e) => setRating(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="one-star">⭐</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="rating"
+                id="two-stars"
+                value="2"
+                checked={rating === "2"}
+                onChange={(e) => setRating(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="two-stars">⭐⭐</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="rating"
+                id="three-stars"
+                value="3"
+                checked={rating === "3"}
+                onChange={(e) => setRating(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="three-stars">⭐⭐⭐</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="rating"
+                id="four-stars"
+                value="4"
+                checked={rating === "4"}
+                onChange={(e) => setRating(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="four-stars">⭐⭐⭐⭐</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="rating"
+                id="five-stars"
+                value="5"
+                checked={rating === "5"}
+                onChange={(e) => setRating(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="five-stars">⭐⭐⭐⭐⭐</FormCheckLabel>
+            </FormCheck>
+            <Button
+              type="button"
+              onClick={() => handleSubmit("rating", rating)}
+            >
+              ENVIAR
+            </Button>
+          </Form>
+          <Form>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="experience"
+                id="one-year"
+                value="1"
+                checked={experience === "1"}
+                onChange={(e) => setExperience(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="one-year">- de 3 anos</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="experience"
+                id="three-years"
+                value="3"
+                checked={experience === "2"}
+                onChange={(e) => setExperience(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="three-years">3 - 5 anos</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="experience"
+                id="five-years"
+                value="5"
+                checked={experience === "3"}
+                onChange={(e) => setExperience(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="five-years">+ de 5 anos</FormCheckLabel>
+            </FormCheck>
+
+            <Button
+              type="button"
+              onClick={() => handleSubmit("experience", experience)}
+            >
+              ENVIAR
+            </Button>
+          </Form>
+          <Form>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="languages"
+                id="english"
+                value="english"
+                checked={languages === "english"}
+                onChange={(e) => setLanguages(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="english">Inglês</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="languages"
+                id="spanish"
+                value="spanish"
+                checked={languages === "spanish"}
+                onChange={(e) => setLanguages(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="spanish">Espanhol</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="languages"
+                id="french"
+                value="french"
+                checked={languages === "french"}
+                onChange={(e) => setLanguages(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="french">Francês</FormCheckLabel>
+            </FormCheck>
+
+            <Button
+              type="button"
+              onClick={() => handleSubmit("languages", languages)}
+            >
+              ENVIAR
+            </Button>
+          </Form>
+        </FilterWrapper>
+        <ContentWrapper>
           <div className="row">
             {data.map((babysitter) => (
               <Card key={babysitter.id}>
@@ -119,7 +291,7 @@ const Home = () => {
                 <CardFooter>
                   <a href="babysitter-details.html">Read More</a>
                   <form action="favorited-babysitter.html" method="POST">
-                    <Button type="submit">
+                    <Button type="submit" favorite={babysitter.isFavorited}>
                       {babysitter.isFavorited ? "❤ Favorited" : "♡ Favorite"}
                     </Button>
                   </form>
@@ -127,7 +299,7 @@ const Home = () => {
               </Card>
             ))}
           </div>
-        </Content>
+        </ContentWrapper>
       </Main>
     </Wrapper>
   );
