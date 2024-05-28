@@ -24,7 +24,7 @@ const Home = () => {
   const [priceRange, setPriceRange] = useState("6.42,20");
   const [rating, setRating] = useState("3");
   const [experience, setExperience] = useState("1");
-  const [languages, setLanguages] = useState("english");
+  const [languages, setLanguages] = useState("English");
 
   useEffect(() => {
     const getData = async () => {
@@ -212,7 +212,7 @@ const Home = () => {
                 type="radio"
                 name="experience"
                 id="three-years"
-                value="3"
+                value="2"
                 checked={experience === "2"}
                 onChange={(e) => setExperience(e.target.value)}
               />
@@ -223,7 +223,7 @@ const Home = () => {
                 type="radio"
                 name="experience"
                 id="five-years"
-                value="5"
+                value="3"
                 checked={experience === "3"}
                 onChange={(e) => setExperience(e.target.value)}
               />
@@ -242,34 +242,34 @@ const Home = () => {
               <FormCheckInput
                 type="radio"
                 name="languages"
-                id="english"
-                value="english"
-                checked={languages === "english"}
+                id="English"
+                value="English"
+                checked={languages === "English"}
                 onChange={(e) => setLanguages(e.target.value)}
               />
-              <FormCheckLabel htmlFor="english">Inglês</FormCheckLabel>
+              <FormCheckLabel htmlFor="English">Inglês</FormCheckLabel>
             </FormCheck>
             <FormCheck>
               <FormCheckInput
                 type="radio"
                 name="languages"
-                id="spanish"
-                value="spanish"
-                checked={languages === "spanish"}
+                id="Spanish"
+                value="Spanish"
+                checked={languages === "Spanish"}
                 onChange={(e) => setLanguages(e.target.value)}
               />
-              <FormCheckLabel htmlFor="spanish">Espanhol</FormCheckLabel>
+              <FormCheckLabel htmlFor="Spanish">Espanhol</FormCheckLabel>
             </FormCheck>
             <FormCheck>
               <FormCheckInput
                 type="radio"
                 name="languages"
-                id="french"
-                value="french"
-                checked={languages === "french"}
+                id="French"
+                value="French"
+                checked={languages === "French"}
                 onChange={(e) => setLanguages(e.target.value)}
               />
-              <FormCheckLabel htmlFor="french">Francês</FormCheckLabel>
+              <FormCheckLabel htmlFor="French">Francês</FormCheckLabel>
             </FormCheck>
 
             <Button
