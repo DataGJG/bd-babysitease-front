@@ -100,6 +100,22 @@ const Home = () => {
       });
   };
 
+  const handleMostRequested = () => {
+    const queryParams = new URLSearchParams({
+      mostRequested: true,
+    }).toString();
+    const url = `http://localhost:8000/home?${queryParams}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((mostRequestedBabysitter) => {
+        setData([mostRequestedBabysitter]);
+      })
+      .catch((error) => {
+        console.error("Error fetching most requested babysitter: ", error);
+      });
+  };
+
   return (
     <Wrapper>
       <Main>
@@ -416,6 +432,10 @@ const Home = () => {
         <br />
         <Button onClick={handleHighestRated}>
           Buscar Babá Mais Bem Avaliada
+        </Button>
+        <br />
+        <Button onClick={handleMostRequested}>
+          Buscar Babá Mais Requisitada
         </Button>
       </Main>
     </Wrapper>
