@@ -25,6 +25,8 @@ const Home = () => {
   const [rating, setRating] = useState("3");
   const [experience, setExperience] = useState("1");
   const [languages, setLanguages] = useState("English");
+  const [educationLevel, setEducationLevel] = useState("");
+  const [gender, setGender] = useState("");
 
   useEffect(() => {
     const getData = async () => {
@@ -63,6 +65,38 @@ const Home = () => {
           `Erro ao enviar os parâmetros do filtro ${filterName}:`,
           error
         );
+      });
+  };
+
+  const handleMostWorked = () => {
+    const queryParams = new URLSearchParams({
+      mostWorked: true,
+    }).toString();
+    const url = `http://localhost:8000/home?${queryParams}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((mostWorkedBabysitter) => {
+        setData([mostWorkedBabysitter]);
+      })
+      .catch((error) => {
+        console.error("Error fetching most worked babysitter: ", error);
+      });
+  };
+
+  const handleHighestRated = () => {
+    const queryParams = new URLSearchParams({
+      highestRated: true,
+    }).toString();
+    const url = `http://localhost:8000/home?${queryParams}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((highestRatedBabysitter) => {
+        setData([highestRatedBabysitter]);
+      })
+      .catch((error) => {
+        console.error("Error fetching highest rated babysitter: ", error);
       });
   };
 
@@ -279,6 +313,78 @@ const Home = () => {
               ENVIAR
             </Button>
           </Form>
+          <Form>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="educationLevel"
+                id="1"
+                value="1"
+                checked={educationLevel === "1"}
+                onChange={(e) => setEducationLevel(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="1">Ensino Médio</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="educationLevel"
+                id="2"
+                value="2"
+                checked={educationLevel === "2"}
+                onChange={(e) => setEducationLevel(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="2">Ensino Superior</FormCheckLabel>
+            </FormCheck>
+            <Button
+              type="button"
+              onClick={() => handleSubmit("educationLevel", educationLevel)}
+            >
+              ENVIAR
+            </Button>
+          </Form>
+
+          <Form>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="gender"
+                id="M"
+                value="M"
+                checked={gender === "M"}
+                onChange={(e) => setGender(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="M">Masculino</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="gender"
+                id="F"
+                value="F"
+                checked={gender === "F"}
+                onChange={(e) => setGender(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="F">Feminino</FormCheckLabel>
+            </FormCheck>
+            <FormCheck>
+              <FormCheckInput
+                type="radio"
+                name="gender"
+                id="O"
+                value="O"
+                checked={gender === "O"}
+                onChange={(e) => setGender(e.target.value)}
+              />
+              <FormCheckLabel htmlFor="O">Outro</FormCheckLabel>
+            </FormCheck>
+            <Button
+              type="button"
+              onClick={() => handleSubmit("gender", gender)}
+            >
+              ENVIAR
+            </Button>
+          </Form>
         </FilterWrapper>
         <ContentWrapper>
           <div className="row">
@@ -304,6 +410,13 @@ const Home = () => {
             ))}
           </div>
         </ContentWrapper>
+        <Button onClick={handleMostWorked}>
+          Buscar Babá Mais Trabalhadora
+        </Button>
+        <br />
+        <Button onClick={handleHighestRated}>
+          Buscar Babá Mais Bem Avaliada
+        </Button>
       </Main>
     </Wrapper>
   );
