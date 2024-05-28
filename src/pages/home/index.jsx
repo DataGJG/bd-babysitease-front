@@ -70,17 +70,22 @@ const Home = () => {
 
   const handleMostWorked = () => {
     const queryParams = new URLSearchParams({
-      mostWorked: true,
+      mostPopular: true,
     }).toString();
     const url = `http://localhost:8000/home?${queryParams}`;
 
     fetch(url)
-      .then((response) => response.json())
-      .then((mostWorkedBabysitter) => {
-        setData([mostWorkedBabysitter]);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar a babá mais popular.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
       })
       .catch((error) => {
-        console.error("Error fetching most worked babysitter: ", error);
+        console.error("Erro ao buscar a babá mais popular:", error);
       });
   };
 
@@ -91,12 +96,17 @@ const Home = () => {
     const url = `http://localhost:8000/home?${queryParams}`;
 
     fetch(url)
-      .then((response) => response.json())
-      .then((highestRatedBabysitter) => {
-        setData([highestRatedBabysitter]);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar a babá com a maior avaliação.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
       })
       .catch((error) => {
-        console.error("Error fetching highest rated babysitter: ", error);
+        console.error("Erro ao buscar a babá com a maior avaliação:", error);
       });
   };
 
@@ -107,12 +117,17 @@ const Home = () => {
     const url = `http://localhost:8000/home?${queryParams}`;
 
     fetch(url)
-      .then((response) => response.json())
-      .then((mostRequestedBabysitter) => {
-        setData([mostRequestedBabysitter]);
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar a babá mais solicitada.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
       })
       .catch((error) => {
-        console.error("Error fetching most requested babysitter: ", error);
+        console.error("Erro ao buscar a babá mais solicitada:", error);
       });
   };
 
